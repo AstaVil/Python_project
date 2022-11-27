@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} <title>Paieška</title> {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8 blog-main">
+        <h5>Rastos "{{query}}" knygos: </h5>
+        {% if search_results %}
+            <ul class="list-group">
+              {% for book in search_results %}
+              <li class="list-group-item">
+                <a href="{% url 'bookdetail' book.id %}">{{book.title}}</a> ({{book.author}})
+              </li>
+              {% endfor %}
+            </ul>
+           {% else %}
+            <p>Nerasta </p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

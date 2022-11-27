@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Autoriai</title>
+{% endblock %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'bookcase/authors_list.css'%}">
+{% endblock %}
+
+
+{% block content%}
+<div class="row">
+    <div class="col-md-5 pb-4 blog-main">
+
+      <h5 class="m-4">Autoriai:</h5>
+        <ul class="list-group list-group-flush">
+          {% for author in authors %}
+          <li class="list-group-item"><a href="{% url 'author' author.id %}">{{author.first_name}} {{author.last_name}}</a></li>
+          {% endfor %}
+        </ul>
+          <div class="container">
+            <nav aria-label="...">
+              {% if authors_list.has_other_pages %}
+              <ul style="list-style-type:none;">
+                {% for i in authors_list.paginator.page_range %}
+                  {% if authors_list.number == i %}
+                    <li class="page-item active" >
+                      <a class="page-link">{{i}}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{i}}">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </nav>
+          </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends base.html' %}
+
+{% block title %}{{ room.name }} | {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-10 blog-main">
+        <div class="card-body text-center">
+            <h4 class="card-title pricing-card-title font-italic mb-4">{{ room.name }}</h4>
+        </div>
+
+        <div class="card-body text-center">
+            <div class="chat-messages space-y-3" id="chat-messages">
+                {% for m in messages %}<b>
+                    {{ m.user.username }}</b>: {{ m.content }}<br>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div >
+            <form method="post" action="." class="flex">
+                <input type="text" name="content" class="flex-1 mr-3" placeholder="Žinutė..." id="chat-message-input">
+
+                <button id="chat-message-submit">Siūsti</button>
+
+            </form>
+        </div>
+
+        {% endblock %}
+
+    </div>
+</div>
+
+{% endblock %}

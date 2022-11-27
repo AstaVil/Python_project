@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} <title>Autorius</title> {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 blog-main">
+        <div class="col">
+        {% if author.author_photo %}
+            <img src="{{ author.author_photo.url}}" alt="{{ author.last_name}}" class="bd-placeholder-img card-img-top"  style="height: max 150px; width: 150px">
+            {% else %}
+            <svg class="bd-placeholder-img card-img-top" width="50%" height="225"  preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="150px" height="150px" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
+        {% endif %}
+        </div>
+        <div class="col m-4" >
+                <h6>Rekomenduojamos šios autoriaus knygos:</h6>
+                <ul>
+                {% for book in author.books.all %}
+                    <li>{{book.title}}</li>
+                    {% endfor %}
+                </ul>
+                <h4>{{author.first_name}} {{author.last_name}}</h4>
+                <p>{{author.biography | safe}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

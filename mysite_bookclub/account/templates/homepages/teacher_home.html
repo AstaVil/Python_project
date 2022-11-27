@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} <title>Pagrindinis</title> {% endblock %}
+
+{% load static %}
+ <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+{% block content %}
+
+<div class="container">
+  <div class="card-deck mb-3 text-center">
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+          <h5 class="card-title pricing-card-title font-italic mb-4"> Knygos </h5>
+          <h6 class="card-title pricing-card-title">  <a href="{% url 'books_list'%}"> Visos knygos </a> <span style="color:SteelBlue"> {{books.all.count}}</span></h6>
+          <h6 class="card-title pricing-card-title">  <a href="{% url 'authors_list'%}">Visi autoriai</a><span style="color:SteelBlue"> {{authors.all.count}}</span></h6>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+          <h5 class="card-title pricing-card-title font-italic mb-4"> Recenzijos </h5>
+          <h6 class="card-title pricing-card-title"> <a href="{% url 'reviews_list'%}">Visos recenzijos</a> <span style="color:SteelBlue"> {{reviews.all.count}}</span></h6>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+          <h5 class="card-title pricing-card-title font-italic mb-4"> Užduotys </h5>
+          <h6 class="card-title pricing-card-title"> <a href="{% url 'taskpost_list'%}">Visos uzduotys</a><span style="color:SteelBlue"> {{tasks.all.count}}</span></h6>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+          <h5 class="card-title pricing-card-title font-italic mb-4"> Vartotojai </h5>
+          <h6 class="card-title pricing-card-title"> <a href="{% url 'accounts_list'%}">Vartotojų sąrašas</a><span style="color:SteelBlue"> {{users.all.count}}</span></h6>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}
+

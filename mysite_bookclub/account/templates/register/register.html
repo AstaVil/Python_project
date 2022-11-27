@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} <title>Register</title> {% endblock %}
+
+
+
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="card card-signin">
+        <div class="card-body">
+
+        <form class="form-signin" method="post">
+         {% csrf_token %}{{form|crispy}}
+          <h1 class="h3 mb-3 font-weight-normal">Registruotis</h1>
+
+          <input type="email" name="email" id="inputEmail" class="form-control" placeholder="El. paštas" required autofocus><br>
+          <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Vartotojo vardas" required><br>
+          <input type="password" name="password1" id="inputPassword1" class="form-control" placeholder="Slaptažodis" required>
+          <small class="form-text text-muted">Slaptažodis turi būti netrumpesnis nei 8 simboliai.</small><br>
+          <input type="password" name="password2" id="inputPassword2" class="form-control" placeholder="Pakartoti slaptažodį" required>
+
+          {% for field in registration_form %}
+              <p>
+                  {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                  {% endfor %}
+              </p>
+              {% endfor %}
+
+              {% if registration_form.non_field_errors %}
+                <div style="color: red">
+                  <p>{{registration_form.non_field_errors}}</p>
+                </div>
+              {% endif %}
+
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Registruotis</button>
+        </form>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+

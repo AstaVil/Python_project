@@ -1,0 +1,54 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} <title>BookClub</title> {% endblock %}
+
+{% block content %}
+
+
+<main role="main" class="container">
+
+
+  <h5 class="blog-post-title">Pasiruošuok literatūros brandos egzaminui kartu su mumis </h5>
+    <p>Šiame knygų klube rasi rekomenduojamas knygas, galėsi skaityti kitų ir rašyti pats knygų recenzijas, gauti mokytojo komentarus, diskutuoti grupėje kartu su kitais studentais ir mokytoju, rekomenduoti savo mėgstamą knygą.</p>
+    <hr>
+    <p>Linkime įdomių studijų ir pačių aukščiausių egzaminų rezultatų! </p>
+
+  <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 d-flex align-items-stretch">
+          <div class="card mb-4 shadow-sm">
+
+            {% if book.cover %}
+            <img src="{{ book.cover.url}}" class="bd-placeholder-img card-img-top" width="100%" style="height: max 150px; width: max 180px" alt="{{ book.title}}">
+            {% else %}
+            <img src="{% static 'images/default-cover.jpg' %}" class="bd-placeholder-img card-img-top" width="100%" style="height: max 150px; width: max 180px" alt="{{ book.title}}">
+            {% endif %}
+
+            <div class="card-body">
+                <p class="card-text"> {{book.author}}</p>
+                <h5 class="card-subtitle mb-2 text-muted">{{book.title}}</h5>
+
+                <h6>Aprašymas:</h6>
+                <p class="card-text"> {{book.desc|truncatechars:100 }}...<a href="{{book.desc}}"><small class="text-muted"> Skaityti daugiau </small></a> </p>
+            </div>
+            <div class="card-footer bg-transparent">
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Recenzijų sk.</small>
+                <small class="text-muted"> {{book.book_reviews.all.count}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+      </div>
+  </div>
+
+</main>
+
+
+{% endblock content %}

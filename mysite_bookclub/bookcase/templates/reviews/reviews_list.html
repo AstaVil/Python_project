@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}  <title>Recenzijos</title> {% endblock %}
+
+
+{% block content%}
+<h2>Recenzijos:</h2>
+
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="get">
+                {{ rev_filter.form }}
+                <button class="btn btn-outline-secondary" type="submit">Filtruoti</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-10 blog-main">
+
+
+         <table class="table mb-0 table-responsive-sm">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Studentas</th>
+                <th>El.paštas</th>
+                <th>Knyga</th>
+                <th>Recenzijos pdf</th>
+                <th>Studento komentaras</th>
+                <th>Mokytojo atsiliepimas</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for review in reviews_list %}
+                <tr>
+                  <td>{{review.review_date|date:"m.d"}}</td>
+                  <td>{{ review.user.username }}</td>
+                  <td>{{ review.user.email }}</td>
+                  <td>{{ review.book }}</td>
+                  <td>
+                    {% if review.pdfReview %}
+                    <a href="{{ review.pdfReview.url }}" target="_blank">Skaityti pdf</a>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if review.comentReview %}
+                    {{ review.comentReview }}
+                    {% endif %}
+                  </td>
+                  <td>
+        <!--            if feedback...  (feedback dar nepadarytas) -->
+        <!--              <a class="font-italic text-dark" href="#" target="_blank">Atsiliepimas</a>-->
+        <!--            else-->
+                    <a href="#" class="btn btn-outline-primary btn-sm" target="_blank">Rašyti atsiliepimą</a>
+                  </td>
+
+                </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} <title>Login</title> {% endblock %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="card card-signin">
+        <div class="card-body">
+
+        <form class="form-signin" method="post">
+          {% csrf_token %}{{form|crispy}}
+
+          <h1 class="h3 mb-3 font-weight-normal">Prisijungti</h1>
+
+          <input type="email" name="email" id="inputEmail" class="form-control" placeholder="El. paštas" required autofocus>
+          <br>
+          <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Slaptažodis" required>
+
+            {% for field in login_form %}
+                <p>
+                  {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                  {% endfor %}
+                </p>
+            {% endfor %}
+            {% if login_form.non_field_errors %}
+              <div style="color: red">
+                <p>{{login_form.non_field_errors}}</p>
+              </div>
+            {% endif %}
+
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Prisijungti</button>
+          <a href="{% url 'password_reset' %}" class="btn btn-link">Pamiršote slaptažodį?</a>
+        </form>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<div class="alert alert-secondary" role="alert">
+    p.s. sukurti useriai:<br> superuser: admin@mail.com | password: admin <br> studentas: studentas@mail.com | password: studentas <br> mokytojas: mokytojas@mail.com | password: mokytojas
+</div>
+
+
+{% endblock content %}

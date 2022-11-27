@@ -1,0 +1,28 @@
+{% extends base.html' %}
+
+{% block title %} Diskusijų temos {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-10 blog-main">
+        <div class="p-10 lg:p-20 text-center">
+            <h3 class="text-3xl lg:text-6xl text-white">Diskusijų temos</h3>
+        </div>
+
+        <div class="w-full flex flex-wrap items-center">
+            {% for room in rooms %}
+                <div class="w-full lg:w-1/4 px-3 py-3">
+                    <div class="p-4 text-center">
+                        <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
+
+                        <a href="{% url 'room' room.slug %}" class="btn btn-outline-primary btn-block"> Prisijungti </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

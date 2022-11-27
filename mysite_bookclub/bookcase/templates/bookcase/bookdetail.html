@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+
+{% block title %} <title>Knyga</title> {% endblock %}
+
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-10 blog-main">
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-shrink-1 bd-highlight">
+                {% if book.cover %}
+                    <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bd-placeholder-img card-img-top"  style="height: max 150px; width: 150px">
+                {% else %}
+                    <svg class="bd-placeholder-img card-img-top" width="50%" height="225"  preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="150px" height="150px" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
+                {% endif %}
+            </div>
+            <div class="p-2 w-100 bd-highlight">
+                <div class="col m-4" >
+                    <h3>{{book.title}}</h3>
+                    <p><strong>Autorius:</strong> <a href="{% url 'author' id=book.author.id %}">{{ book.author }}</a></p>
+                    <p><strong>Aprašymas: </strong> {{book.desc|truncatechars:200 }}... <a href="{{ book.desc}}"><small class="text-muted">Skaityti daugiau</small></a></p>
+                    <a href="{{ book.pdf.url }}" class="btn btn-outline-secondary btn-sm" target="_blank">Skaityti PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            {% if user.is_authenticated %}
+               <div class="p-4 mb-3 rounded" >
+                   <a href="send_review" class="btn btn-outline-primary btn-block">Įkelti savo recenziją</a>
+               </div>
+            {% endif %}
+
+            <p class="p-2"><strong>Recenzijos: </strong> {{book.book_reviews.all.count}}</p>
+
+            <div class="d-flex align-content-md-start flex-wrap">
+                {% for review in onebook_reviews %}
+
+                        <div class="card m-1 p-2 w-100" >
+                            <small> {{review.review_date|date:"Y.m.d"}} </small>
+                            <small> <strong> {{review.user.username}} </strong></small>
+                            <p> {{ review.comentReview}}</p>
+                            {% if review.pdfReview %}
+                            <p> <a href="{{ review.pdfReview.url }}" target="_blank">Skaityti recenziją</a></p>
+                            {%endif%}
+                        </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

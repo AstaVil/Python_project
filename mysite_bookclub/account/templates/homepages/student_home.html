@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %} <title>Student_home</title> {% endblock %}
+
+
+{% block content %}
+
+
+
+ <div class="row">
+    <div class="col-md-8 blog-main">
+      <div class="blog-post">
+
+        <form class="d-flex" role="search" action="{% url 'search_book' %}" method="get">
+            <input class="form-control me-2" name="query" type="text" placeholder="Knygos paieška" aria-label="Search">
+            <button class="btn btn-outline-secondary" type="submit">Ieškoti</button>
+        </form>
+          <br>
+
+        <p>Morbi non nibh efficitur, suscipit diam et, pulvinar urna.
+            Fusce ut pretium lacus, quis cursus libero. Nam at erat ut tortor semper faucibus. Suspendisse potenti.
+            Nam gravida dui elit, id ornare nibh interdum id.
+            Duis felis sit amet venenatis. </p>
+        <hr>
+        <p>Nulla congue, elit eu euismod efficitur. Curabitur maximus bibendum ipsum..
+            Cum sociis natoque tortor semper <a href="#">dis parturient montes</a>, nascetur ridiculus mus. </p>
+      </div>
+    </div>
+
+    <aside class="col-md-4 blog-sidebar">
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="font-italic">Klausimas diskusijai</h4>
+          {% if tasks %}
+            {% for task in tasks %}
+            <div class="d-flex justify-content-end mb-2">
+                <div class="mr-2"> <small class="text-muted text-right">{{task.posted_at|date:"m.d"}}-{{task.deadline|date:"m.d" }}</small> </div>
+                <div class="mr-2"> <small class="text-muted text-right"> {{task.sender.username}}</small></div>
+            </div>
+              <p class="mb-0"> {{task.description|truncatechars:300 }} </p>
+
+            {% endfor %}
+         {% endif %}
+      </div>
+    </aside>
+
+
+    <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card mb-4 shadow-sm">
+
+            {% if book.cover %}
+            <img src="{{ book.cover.url}}" alt="{{ book.title}}" class="bd-placeholder-img card-img-top">
+            {% else %}
+                <img src="#" class="bd-placeholder-img card-img-top" width="100%" style="height: max 150px; width: max 180px" alt="{{ book.title}}">
+            {% endif %}
+                <div class="card-body">
+                    <div>
+                    <p class="card-text">  <a href="{% url 'author' id=book.author.id %}">{{ book.author }}</a></p>
+                    <h5 class="card-subtitle mb-2 text-muted"><a href="{% url 'bookdetail' book.id %}">{{book.title}}</a></h5>
+                        <br>
+                        <h6>Aprašymas:</h6>
+                        <p class="card-text"> {{book.desc|truncatechars:200 }}...<a href="{{book.desc}}"><small class="text-muted"> Skaityti daugiau </small></a> </p>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Recenzijų sk.</small>
+                        <small class="text-muted"> {{book.book_reviews.all.count}}</small>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="btn-group justify-content-center mt-3 btn-block">
+                        {% if book.pdf %}
+
+                            <a href="{{ book.pdf.url }}" class="btn btn-outline-primary" target="_blank">Skaityti PDF</a>
+                            <a href="{{ book.pdf.url }}" download class="btn btn-outline-primary">Atsiusti PDF</a>
+                            {% else %}
+                            <span class="text-muted">PDF negalimas</span>
+                        {% endif %}
+                        </div>
+                    </div>
+
+                        <div class="mt-3 mb-3" >
+                           <a href="{% url 'bookdetail' book.id %}" class="btn btn-outline-secondary btn-block" >Rašyti ir skaityti recenzijas </a>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+ </div>
+
+
+{% endblock content %}

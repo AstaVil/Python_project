@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+ <title>Visos knygos</title>
+{% endblock %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'bookcase/books_list.css'%}">
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-10 blog-main">
+
+        <h5>Esančios knygos</h5>
+
+        <form class="d-flex" role="search" action="{% url 'search_book' %}" method="get">
+            <input class="form-control me-2" name="query" type="text" placeholder="Knygos paieška" aria-label="Search">
+            <button class="btn btn-outline-secondary" type="submit">Ieškoti</button>
+        </form>
+          <br>
+
+          <table class="table mb-0 table-responsive-sm">
+            <thead>
+              <tr>
+                <th>Viršelis</th>
+                <th>Knygos pavadinimas</th>
+                <th>Autorius</th>
+                <th>Recenzijų sk.</th>
+                <th>Knygos pdf</th>
+                <th>Atsiusti pdf</th>
+                <th>Ištrinti</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% if books_list %}
+              {% for book in books_list %}
+                <tr>
+                  <td>
+                    {% if book.cover %}
+                      <img src="{{ book.cover.url }}" alt="{{ book.title }}" style="width:60px;">
+                    {% else %}
+                      <span class="text-muted">Viršelis negalimas</span>
+                    {% endif %}
+                  </td>
+                  <td><a href="{% url 'bookdetail' book.id %}">{{book.title}}</a></td>
+                  <td>{{ book.author }}</td>
+                  <td> {{book.book_reviews.all.count}}</td>
+                  <td>
+                    {% if book.pdf %}
+                      <a href="{{ book.pdf.url }}" class="btn btn-outline-primary btn-sm" target="_blank">Skaityti PDF</a>
+                      {% else %}
+                      <span class="text-muted">PDF negalimas</span>
+                    {% endif %}
+                  </td>
+
+                  <td>
+                    {% if book.pdf %}
+                        <a href="{{ book.pdf.url }}" download class="btn btn-primary btn-sm">Atsiusti PDF</a>
+                        {% else %}
+                        <span class="text-muted">PDF negalimas</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <form method="post" action="{% url 'delete_book' book.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">Ištrinti knygą</button>
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endif %}
+            </tbody>
+          </table>
+
+
+    </div>
+</div>
+
+<div class="pagination">
+
+       <span class="step-links">
+           {% if paged_books.has_previous %}
+           <a href="?page=1">&laquo; pirmas</a>
+           <a href="?page={{ page_obj.previous_page_number }}">atgal</a>
+           {% endif %}
+
+           <span class="current">
+               {{paged_books.number}}  {{paged_books.paginator.num_pages}}
+           </span>
+
+           {% if paged_books.has_next %}
+           <a href="?page={{paged_books.next_page_number}}">pirmyn</a>
+           <a href="?page={{paged_books.paginator.num_pages}}">paskutinis &raquo;</a>
+           {% endif %}
+       </span>
+   </div>
+
+
+{% endblock %}
